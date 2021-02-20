@@ -44,7 +44,7 @@ ul li
   font-size: 16px;
 }
 
-a:link,a:visited
+.special:link,.special:visited
 {
 	display:block;
 	font-weight:bold;
@@ -56,7 +56,7 @@ a:link,a:visited
 	text-decoration:none;
 }
 
-a:hover, a:active
+.special:hover, .special:active
 {
 	background-color: #FF66CC;
 }

@@ -1,4 +1,4 @@
-//创建和初始化地图函数：
+// 主要是百度地图的js
 function initMap(){
     createMap();//创建地图
     setMapEvent();//设置地图事件
