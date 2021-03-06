@@ -1,57 +1,31 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>爽爽网</title>
-    <link rel="stylesheet" type="text/css" href="styles/style.css" />
-    <link href="styles/minimal-table.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="scripts/main.js"></script>
+    <meta charset="utf-8">
+    <title>wymanp</title>
+    <link rel="stylesheet" href="style.css">
   </head>
-  
+
   <body>
+    <label for="theme">选择主题颜色: </label>
+    <select id="theme">
+      <option value="white">白色</option>
+      <option value="black">黑色</option>
+      <option value="purple">紫色</option>
+      <option value="yellow">黄色</option>
+    </select>
 
-   <p style="background: url(images/shuang.jpg) no-repeat; padding-left: 75px; font-size: 40px; margin: 20px 0px;"><strong>爽爽网</strong></p>
+    <h1>亮暗亮</h1>
+    <div class="full-img">
+      <img class="displayed-img" src="images/pic1.jpg">
+      <div class="overlay"></div>
+      <button class="dark">变暗</button>
+    </div>
+
+    <div class="thumb-bar"></div>
 
 
-   <nav>
-    <ul class="nav">
-    <li><a class="special" href="index.html";class="n">简介</a></li>
-    <li><a class="special" href="video.html">视频</a></li>
-    <li><a class="special" href="map.html">地图</a></li>
-    <li><a class="special" href="download.html">下载</a></li>
-    <li><a class="special" href="shengchengqi/shengchengqi.html">html</a></li>
-
-    </ul>
-    </nav>
-<br>
-<br>
-<p> </p>
-<table>
-  <tr>
-    <th>版本</th>
-    <td colspan="3">3.0</td>
-  </tr>
-  <tr>
-    <th>作者</th>
-    <td colspan="3">潘爽</td>
-  </tr>
-  <tr>
-    <th>功能</th>
-    <td>下载资料</td>
-    <td>多媒体嵌入</td>
-    <td>html运行器</td>
-  </tr>
-  <tr>
-    <th rowspan="2">链接</th>
-    <td colspan="3"><a href="https://1511pspsps.github.io/">https://1511pspsps.github.io/</a></td>
-  </tr>
-  <tr>
-    <td colspan="3"><a href="http://wyman.ga">http://wyman.ga</a></td>
-  </tr>
-  <tr>
-    <th>更新日期</th>
-    <td colspan="3">2021-2-25</td>
-  </tr>
-</table>
-
+  </body>
 </html>
+<script src="script.js"></script>
