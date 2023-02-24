@@ -1,34 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Currency Exchange Rate</title>
-    <script src="./currency.js"></script>
-  </head>
-  <body>
-    <h1>Currency Exchange Rate</h1>
-    <h2>Real-time Exchange Rate:</h2>
-    <ul>
-      <li>
-        1 USD =
-        <span id="USD_rate"></span> CNY
-      </li>
-      <li>
-        1 HKD =
-        <span id="HKD_rate"></span> CNY
-      </li>
-      <li>
-        1 GBP =
-        <span id="GBP_rate"></span> CNY
-      </li>
-      <li>
-        1 SGD =
-        <span id="SGD_rate"></span> CNY
-      </li>
-    </ul>
-    <h2>Exchange Rate Chart:</h2>
-    <div id="chart"></div>
-  </body>
-</html>
+<!DOCTYPE html> 
+ <html> 
+ <head> 
+ <meta charset="UTF-8"> 
+ <title>汇率转换</title> 
+ </head> 
+ <body> 
+ <h1>1 美元 (USD) 兑换 人民币 (CNY) 汇率： <span id="usd"></span></h1> 
+ <h1>1 港币 (HKD) 兑换 人民币 (CNY) 汇率： <span id="hkd"></span></h1> 
+ <h1>1 英镑 (GBP) 兑换 人民币 (CNY) 汇率： <span id="gbp"></span></h1> 
+ <h1>1 新加坡元 (SGD) 兑换 人民币 (CNY) 汇率： <span id="sgd"></span></h1> 
+ <script> 
+ // 通过 ExchangeRate-API 获取汇率数据 
+ const url = "https://api.exchangerate-api.com/v4/latest/CNY"; 
+ fetch(url) 
+ .then(response => response.json()) 
+ .then(data => { 
+ // 解析汇率数据，将汇率显示在页面上 
+ const usd_rate = (1 / data.rates.USD).toFixed(2); 
+ const hkd_rate = (1 / data.rates.HKD).toFixed(2); 
+ const gbp_rate = (1 / data.rates.GBP).toFixed(2); 
+ const sgd_rate = (1 / data.rates.SGD).toFixed(2); 
+ document.getElementById("usd").innerHTML = usd_rate; 
+ document.getElementById("hkd").innerHTML = hkd_rate; 
+ document.getElementById("gbp").innerHTML = gbp_rate; 
+ document.getElementById("sgd").innerHTML = sgd_rate; 
+ }); 
+ </script> 
+ </body> 
+ </html> 
