@@ -1,0 +1,37 @@
+const api_key = '5f1b31dede2e6f4c0a2815dc';
+
+async function getExchangeRate(currency) {
+  const response = await fetch(`https://v6.exchangerate-api.com/v6/${api_key}/latest/${currency}`);
+  const data = await response.json();
+  return data.conversion_rates;
+}
+
+async function displayExchangeRate(currency) {
+  const rates = await getExchangeRate(currency);
+  const rateList = document.createElement('ul');
+  for (const [key, value] of Object.entries(rates)) {
+    const rateListItem = document.createElement('li');
+    rateListItem.innerHTML = `${key}: ${value.toFixed(4)}`;
+    rateList.appendChild(rateListItem);
+  }
+  document.getElementById('exchange-rate-list').innerHTML = '';
+  document.getElementById('exchange-rate-list').appendChild(rateList);
+}
+
+async function getExchangeRateHistory(currency, startDate, endDate) {
+  const response = await fetch(`https://v6.exchangerate-api.com/v6/${api_key}/history/${startDate}/${endDate}/${currency}`);
+  const data = await response.json();
+  return data;
+}
+
+async function displayExchangeRateHistory(currency, startDate, endDate) {
+  const history = await getExchangeRateHistory(currency, startDate, endDate);
+  const rateList = document.createElement('ul');
+  for (const [date, rateData] of Object.entries(history['conversion_rates'])) {
+    const rateListItem = document.createElement('li');
+    rateListItem.innerHTML = `${date}: ${rateData[currency].toFixed(4)}`;
+    rateList.appendChild(rateListItem);
+  }
+  document.getElementById('exchange-rate-history-list').innerHTML = '';
+  document.getElementById('exchange-rate-history-list').appendChild(rateList);
+}
