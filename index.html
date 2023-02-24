@@ -1,119 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>汇率转换器</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.27.3/dist/apexcharts.min.css">
-  <style>
-    table {
-      border-collapse: collapse;
-    }
-    td, th {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-    h1 {
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <h1>实时汇率</h1>
-  <table>
-    <tr>
-      <th>货币</th>
-      <th>汇率</th>
-    </tr>
-    <tr>
-      <td>人民币</td>
-      <td id="CNY"></td>
-    </tr>
-    <tr>
-      <td>美元</td>
-      <td id="USD"></td>
-    </tr>
-    <tr>
-      <td>英镑</td>
-      <td id="GBP"></td>
-    </tr>
-    <tr>
-      <td>港币</td>
-      <td id="HKD"></td>
-    </tr>
-    <tr>
-      <td>新币</td>
-      <td id="SGD"></td>
-    </tr>
-  </table>
-  <h1>近一年汇率走势</h1>
-  <div id="chart"></div>
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.27.3/dist/apexcharts.min.js"></script>
-  <script>
-    const apiURL = 'https://api.exchangerate.host/';
-    const currencies = ['CNY', 'USD', 'GBP', 'HKD', 'SGD'];
-
-    // 获取实时汇率并更新表格
-    function getExchangeRates() {
-      for (const currency of currencies) {
-        const rateElement = document.getElementById(currency);
-        const chartElement = document.getElementById('chart');
-        fetch(`${apiURL}latest?base=${currency}&symbols=USD`)
-          .then(response => response.json())
-          .then(data => {
-            // 更新汇率值
-            const rate = data.rates.USD.toFixed(4);
-            rateElement.innerHTML = rate;
-            // 绘制折线图
-            const chartData = Object.keys(data.rates).map(date => ({
-              x: new Date(date),
-              y: data.rates[date],
-            }));
-            const chart = new ApexCharts(chartElement, {
-              series: [{
-                name: `${currency} - USD`,
-                data: chartData,
-              }],
-              chart: {
-                type: 'area',
-                height: 300,
-                zoom: {
-                  enabled: false
-                },
-              },
-              dataLabels: {
-                enabled: false
-              },
-              stroke: {
-                curve: 'smooth',
-              },
-              xaxis: {
-                type: 'datetime',
-              },
-              yaxis: {
-                labels: {
-                  formatter: function (val) {
-                    return val.toFixed(4);
-                  }
-                }
-              },
-            });
-            chart.render();
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      setTimeout(getExchangeRates, 10000); // 每10秒更新一次汇率
-    }
-
-    // 页面加载时执行
-    window.onload = function() {
-      getExchangeRates();
-    };
-  }
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>汇率转换</title>
+  </head>
+  <body>
+    <h1>1 美元 (USD) 兑换 人民币 (CNY) 汇率： <span id="usd"></span></h1>
+    <h1>1 港币 (HKD) 兑换 人民币 (CNY) 汇率： <span id="hkd"></span></h1>
+    <h1>1 英镑 (GBP) 兑换 人民币 (CNY) 汇率： <span id="gbp"></span></h1>
+    <h1>1 新加坡元 (SGD) 兑换 人民币 (CNY) 汇率： <span id="sgd"></span></h1>
+    <script>
+      // 通过 ExchangeRate-API 获取汇率数据
+      const url = "https://api.exchangerate-api.com/v4/latest/CNY";
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          // 解析汇率数据，将汇率显示在页面上
+          const usd_rate = (1 / data.rates.USD).toFixed(2);
+          const hkd_rate = (1 / data.rates.HKD).toFixed(2);
+          const gbp_rate = (1 / data.rates.GBP).toFixed(2);
+          const sgd_rate = (1 / data.rates.SGD).toFixed(2);
+          document.getElementById("usd").innerHTML = usd_rate;
+          document.getElementById("hkd").innerHTML = hkd_rate;
+          document.getElementById("gbp").innerHTML = gbp_rate;
+          document.getElementById("sgd").innerHTML = sgd_rate;
+        });
+    </script>
+  </body>
 </html>
