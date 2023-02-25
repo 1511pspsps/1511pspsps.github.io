@@ -5,11 +5,21 @@
  <title>汇率转换</title> 
  </head> 
  <body> 
+      <h1>时间</h1>
+    <p id="us-time"></p>
+    <p id="uk-time"></p>
  <h1>1 美元 (USD) 兑换 人民币 (CNY) 汇率： <span id="usd"></span></h1> 
  <h1>1 港币 (HKD) 兑换 人民币 (CNY) 汇率： <span id="hkd"></span></h1> 
  <h1>1 英镑 (GBP) 兑换 人民币 (CNY) 汇率： <span id="gbp"></span></h1> 
- <h1>1 新加坡元 (SGD) 兑换 人民币 (CNY) 汇率： <span id="sgd"></span></h1> 
+  
  <script> 
+        function displayTime() {
+        var usTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+        var ukTime = new Date().toLocaleString("en-GB", { timeZone: "Europe/London" });
+        document.getElementById("us-time").innerHTML = "美国时间: " + usTime;
+        document.getElementById("uk-time").innerHTML = "英国时间: " + ukTime;
+      }
+      setInterval(displayTime, 1000);
  // 通过 ExchangeRate-API 获取汇率数据 
  const url = "https://api.exchangerate-api.com/v4/latest/CNY"; 
  fetch(url) 
@@ -19,11 +29,9 @@
  const usd_rate = (1 / data.rates.USD).toFixed(2); 
  const hkd_rate = (1 / data.rates.HKD).toFixed(2); 
  const gbp_rate = (1 / data.rates.GBP).toFixed(2); 
- const sgd_rate = (1 / data.rates.SGD).toFixed(2); 
  document.getElementById("usd").innerHTML = usd_rate; 
  document.getElementById("hkd").innerHTML = hkd_rate; 
  document.getElementById("gbp").innerHTML = gbp_rate; 
- document.getElementById("sgd").innerHTML = sgd_rate; 
  }); 
  </script> 
  </body> 
