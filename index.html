@@ -1,38 +1,114 @@
-<!DOCTYPE html> 
- <html> 
- <head> 
- <meta charset="UTF-8"> 
- <title>汇率转换</title> 
- </head> 
- <body> 
-      <h1>时间</h1>
-    <p id="us-time"></p>
-    <p id="uk-time"></p>
- <h1>1 美元 (USD) 兑换 人民币 (CNY) 汇率： <span id="usd"></span></h1> 
- <h1>1 港币 (HKD) 兑换 人民币 (CNY) 汇率： <span id="hkd"></span></h1> 
- <h1>1 英镑 (GBP) 兑换 人民币 (CNY) 汇率： <span id="gbp"></span></h1> 
-  
- <script> 
-        function displayTime() {
-        var usTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
-        var ukTime = new Date().toLocaleString("en-GB", { timeZone: "Europe/London" });
-        document.getElementById("us-time").innerHTML = "美国时间: " + usTime;
-        document.getElementById("uk-time").innerHTML = "英国时间: " + ukTime;
-      }
-      setInterval(displayTime, 1000);
- // 通过 ExchangeRate-API 获取汇率数据 
- const url = "https://api.exchangerate-api.com/v4/latest/CNY"; 
- fetch(url) 
- .then(response => response.json()) 
- .then(data => { 
- // 解析汇率数据，将汇率显示在页面上 
- const usd_rate = (1 / data.rates.USD).toFixed(2); 
- const hkd_rate = (1 / data.rates.HKD).toFixed(2); 
- const gbp_rate = (1 / data.rates.GBP).toFixed(2); 
- document.getElementById("usd").innerHTML = usd_rate; 
- document.getElementById("hkd").innerHTML = hkd_rate; 
- document.getElementById("gbp").innerHTML = gbp_rate; 
- }); 
- </script> 
- </body> 
- </html> 
+<!DOCTYPE html>
+<html>
+<head>
+	<title>国家时间和汇率表格</title>
+	<meta charset="UTF-8">
+	<style>
+		table, th, td {
+		  border: 1px solid black;
+		  border-collapse: collapse;
+		}
+		th, td {
+		  padding: 10px;
+		  text-align: left;
+		}
+	</style>
+</head>
+<body>
+	<h1>国家时间和汇率表格</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>国家</th>
+				<th>时间</th>
+				<th>汇率</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>中国</td>
+				<td id="time-cn"></td>
+				<td id="rate-cn"></td>
+			</tr>
+			<tr>
+				<td>美国</td>
+				<td id="time-us"></td>
+				<td id="rate-us"></td>
+			</tr>
+			<tr>
+				<td>英国</td>
+				<td id="time-uk"></td>
+				<td id="rate-uk"></td>
+			</tr>
+			<tr>
+				<td>澳大利亚</td>
+				<td id="time-au"></td>
+				<td id="rate-au"></td>
+			</tr>
+			<tr>
+				<td>新加坡</td>
+				<td id="time-sg"></td>
+				<td id="rate-sg"></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<script>
+		function updateData() {
+			// 获取中国实时汇率数据
+			fetch('https://api.exchangerate-api.com/v4/latest/CNY')
+				.then(response => response.json())
+				.then(data => {
+					// 更新中国时间和汇率
+					document.getElementById('time-cn').textContent = new Date(new Date().toLocaleString('zh-CN', {timeZone: 'Asia/Shanghai'})).toLocaleString();
+					document.getElementById('rate-cn').textContent = `1 CNY = ${data.rates.USD.toFixed(2)} USD`;
+				})
+				.catch(error => console.log(error));
+
+			// 获取美国实时汇率数据
+			fetch('https://api.exchangerate-api.com/v4/latest/USD')
+				.then(response => response.json())
+				.then(data => {
+					// 更新美国时间和汇率
+					document.getElementById('time-us').textContent = new Date(new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})).toLocaleString();
+					document.getElementById('rate-us').textContent = `1 USD = ${( data.rates.CNY).toFixed(2)} CNY`;
+				})
+				.catch(error => console.log(error));
+
+			// 获取英国实时汇率数据
+			fetch('https://api.exchangerate-api.com/v4/latest/GBP')
+				.then(response => response.json())
+				.then(data => {
+					// 更新英国时间和汇率
+					document.getElementById('time-uk').textContent = new Date(new Date().toLocaleString('en-GB', {timeZone: 'Europe/London'})).toLocaleString();
+					document.getElementById('rate-uk').textContent = `1 GBP = ${data.rates.CNY.toFixed(2)} CNY`;
+					})
+					.catch(error => console.log(error));
+
+// 获取澳大利亚实时汇率数据
+fetch('https://api.exchangerate-api.com/v4/latest/AUD')
+			.then(response => response.json())
+			.then(data => {
+				// 更新澳大利亚时间和汇率
+				document.getElementById('time-au').textContent = new Date(new Date().toLocaleString('en-AU', {timeZone: 'Australia/Sydney'})).toLocaleString();
+				document.getElementById('rate-au').textContent = `1 AUD = ${data.rates.CNY.toFixed(2)} CNY`;
+			})
+			.catch(error => console.log(error));
+
+		// 获取新加坡实时汇率数据
+		fetch('https://api.exchangerate-api.com/v4/latest/SGD')
+			.then(response => response.json())
+			.then(data => {
+				// 更新新加坡时间和汇率
+				document.getElementById('time-sg').textContent = new Date(new Date().toLocaleString('en-SG', {timeZone: 'Asia/Singapore'})).toLocaleString();
+				document.getElementById('rate-sg').textContent = `1 SGD = ${data.rates.CNY.toFixed(2)} CNY`;
+			})
+			.catch(error => console.log(error));
+	}
+
+	// 页面加载时更新数据
+	updateData();
+
+	// 每隔1分钟更新数据
+	setInterval(updateData, 60000);
+</script>
